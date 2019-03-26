@@ -1,8 +1,8 @@
 {
-  "name": "Fixbot dashboard",
+  "name": "Fixbot",
   "version": "1.0.0",
   "private": true,
-  "homepage": "https://fixbot.github.io/",
+  "homepage": "https://myfixbot.co/",
   "dependencies": {
     "@types/react": "16.4.16",
     "bootstrap": "4.1.3",
