@@ -24,7 +24,7 @@ Special thanks go for the owners of these plugins:
 ## Demo
 
 
-[View Demo](https://fixbotdash.firebaseapp.com/).
+[View Demo](https://fixbot2019.firebaseapp.com/).
 
 
 ## Quick start
