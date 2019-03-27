@@ -1,0 +1,21 @@
+{
+  "name": "fixbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"cd client && npm start\" \"cd server && npm start\" ",
+    "api": "cd server && npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CeoFred/fixbot_dashboard.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CeoFred/fixbot_dashboard/issues"
+  },
+  "homepage": "https://github.com/CeoFred/fixbot_dashboard#readme"
+}
