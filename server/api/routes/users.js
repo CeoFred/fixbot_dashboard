@@ -17,9 +17,7 @@ const {empty,success,exists,failed,created,invalid} = require('../response');
 
 router.post('/login', [
     // username must be an email
-    check('email').isEmail().withMessage('A valid email is required to signin'),
-    // password must be at least 5 chars long
-    check('password').isLength({ min: 5 })
+    check('email').isEmail().withMessage('A valid email is required to signin')
 ],(req,res,next) => {
         // Finds the validation errors in this request and wraps them in an object with handy functions
         const errors = validationResult(req);

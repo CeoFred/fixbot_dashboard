@@ -1,24 +1,32 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { createBrowserHistory } from "history";
-import { Router, Route, Switch, Redirect } from "react-router-dom";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { BrowserRouter} from 'react-router-dom';
+import {Provider} from 'react-redux';
+import { createStore , applyMiddleware,compose,combineReducers} from 'redux';
+import thunk from 'redux-thunk'; //thunk helps to add middle ware to action creators with the help of applyMiddle from redux above
 
-import AdminLayout from "layouts/Admin/Admin.jsx";
-import RTLLayout from "layouts/RTL/RTL.jsx";
+import './index.css';
+import App from './App';
+import * as serviceWorker from './serviceWorker';
 
-import "assets/scss/black-dashboard-react.scss";
-import "assets/demo/demo.css";
-import "assets/css/nucleo-icons.css";
+import Authreducer from './store/reducers/authReducer';
+const composeEnhancers = process.env.NODE_ENV === 'development'? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
 
+const rootReducer = combineReducers({
+    auth : Authreducer
+})
 
-const hist = createBrowserHistory();
+// Second arguments enable us to use redux dev tools
+const store =  createStore(rootReducer ,composeEnhancers(
+    applyMiddleware(thunk)
+));
 
-ReactDOM.render(
-  <Router history={hist}>
-    <Switch>
-      <Route path="/admin" render={props => <AdminLayout {...props} />} />
-      <Redirect from="/" to="/admin/dashboard" />
-    </Switch>
-  </Router>,
-  document.getElementById("root")
+const app = (
+    <Provider store={store}>
+<BrowserRouter>
+    <App/>
+    </BrowserRouter>
+    </Provider>
 );
+ReactDOM.render(app, document.getElementById('root'));
+serviceWorker.register();
