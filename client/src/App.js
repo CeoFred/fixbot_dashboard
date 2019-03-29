@@ -14,29 +14,39 @@ import Login from "./views/Login.jsx"
 import "assets/scss/black-dashboard-react.scss";
 import "assets/demo/demo.css";
 import "assets/css/nucleo-icons.css";
-
+import "assets/css/iziToast.min.css"
 
 class App extends React.Component {
 
   componentDidMount() {
 
     this.props.onTryAutoSignup();
+
   }
   render(){
-const hist = createBrowserHistory();
-
-let routes = (
-
-<Router history={hist}>
-<Switch>
+    const hist = createBrowserHistory();
+    var routes;
+if(!this.props.isAutheticated){
+     routes = (
+      <Switch>
+      <Route path="/auth/signin" component={Login}/>
+      <Redirect from="/" to="/auth/signin" />
+    </Switch>
+      )
+    }else{
+      routes = (
+      <Switch>
       <Route path="/auth/signin" component={Login}/>
       <Route path="/admin" render={props => <AdminLayout {...props} />} />
       <Redirect from="/" to="/admin/dashboard" />
     </Switch>
-  </Router>
-    );
-
-    return {routes}
+      )
+    }
+    return (
+      <Router history={hist}>
+    {routes}
+    </Router>
+    )
   }
 
 ;

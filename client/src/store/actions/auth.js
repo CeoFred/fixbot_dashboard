@@ -1,5 +1,5 @@
 import * as action from './actionTypes';
-import axios from 'axios';
+// import axios from 'axios';
 
 export const authStart = () => {
     return {
@@ -7,12 +7,12 @@ export const authStart = () => {
     }
 };
 
-export const authSuccess = (userId,token) => {
+export const authSuccess = (token,user) => {
 
     return {
         type:action.AUTH_SUCCESS,
         idToken:token,
-        userId:userId
+        user
     }
 };
 
@@ -35,29 +35,38 @@ return dispatch => {
 
     const payLoad = {
         email:email,
-        password: password,
-        returnSecureToken:true
+        password: password
     }
-    let url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyBLs30fuFZn7hzP5Yj1oOsyFrnKs8YOx_0';
+    let url = 'http://localhost:3001/user/login';
 
-    if(!isSignUp){
-        url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyBLs30fuFZn7hzP5Yj1oOsyFrnKs8YOx_0';
+    if(isSignUp){
+        url = 'http://localhost:3001/user/signup';
     }
 
-    axios.post(url,payLoad)
-    .then(res => {
-        let expirationDate = new Date(new Date().getTime() + res.data.expiresIn * 1000);
-        // console.log(' localId '+res.data.localId , ' tokenId '+res.data.idToken);
-        localStorage.setItem('token', res.data.idToken);
-        localStorage.setItem('expirationDate', expirationDate);
-        localStorage.setItem('userId',res.data.localId);
-        dispatch(authSuccess(res.data.localId,res.data.idToken));
-        dispatch(checkAuthTimeout(res.data.expiresIn));
+    fetch(url,{
+        body:JSON.stringify(payLoad),
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        mode: "cors",
     })
-    .catch(err => {
-        // console.log(err.response.data.error.message);
-        dispatch(authFailed(err.response.data.error.message))
-        });
+    .then(res => res.json())
+    .then(data => {
+        if(data.message === 'Failed'){
+     dispatch(authFailed('Invalid credentials'))
+        }else{
+    let expirationDate = new Date(new Date().getTime() + data.meta.expiry * 1000);
+            localStorage.setItem('token', data.meta.token);
+            localStorage.setItem('userId', data.meta.userId);
+            localStorage.setItem('expirationDate', expirationDate);
+            dispatch(authSuccess(data.meta.token,data.meta.userId));
+        }
+        console.log(data)
+    }).catch(err => {
+    console.log(err);
+    dispatch(authFailed('Something went wrong'))
+               });
     };
 };
 

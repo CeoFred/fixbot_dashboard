@@ -14,18 +14,21 @@ import {
   Row,
   Col
 } from "reactstrap";
+import iziToast from "izitoast";
+import { connect } from 'react-redux';
+import * as actions from '../store/actions/index'
+import "../assets/css/custom.css"
 
-
-import {updateObject,checkValidity} from '../shared/utility'
+import { updateObject, checkValidity } from '../shared/utility'
 class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       formIsValid: false,
-      loginForm:{
+      loginForm: {
         email: {
-           value: '',
-            validation: {
+          value: '',
+          validation: {
             required: true,
             isEmail: true
 
@@ -47,6 +50,13 @@ class Login extends React.Component {
   componentWillMount() {
     document.title = 'Login | fixbot'
   }
+  componentDidMount() {
+    iziToast.success({
+      title: "Welcome to Fixbot",
+      message: "Login to access your dashboard"
+    });
+  }
+
   handleInputChange = (event, inputIdentifier) => {
 
     const updatedFormElement = updateObject(this.state.loginForm[inputIdentifier], {
@@ -70,36 +80,47 @@ class Login extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-   let submitBtn =  document.getElementById('submitBtn')
+    let submitBtn = document.getElementById('submitBtn')
     submitBtn.disabled = true;
     submitBtn.innerText = 'Please wait...'
-    const data = {
-      email:this.state.loginForm.email.value,
-      password:this.state.loginForm.password.value
-    }
-    console.log(data);
-    fetch('http://localhost:3001/user/login',{
-      method:'POST',
-      headers:{
-        "Content-Type":"application/json"
-      },
-      mode:"cors",
-      body:JSON.stringify(data)
-    }).then(res => res.json())
-    .then(data => {console.log(data)
-      submitBtn.disabled = false;
-      submitBtn.innerText = 'Ready!'
-    })
-    .catch(err => {console.log(err)
-      submitBtn.disabled = false;
-      submitBtn.innerText = 'Ready!'
-    })
+    const email = this.state.loginForm.email.value
+    const password = this.state.loginForm.password.value
+    this.props.SignIn(email, password, false)
+
+    setTimeout(() => {
+
+      if (this.props.isAutheticated) {
+        iziToast.show({
+          title: 'Great',
+          message: 'Sucesssfully logged in',
+          icon: 'icon-person',
+          position: 'topRight'
+        })
+      }
+
+      if (this.props.loading === false) {
+        submitBtn.disabled = false;
+        submitBtn.innerText = 'Ready!'
+      }
+      if (this.props.error) {
+        iziToast.warning({
+          message: 'Wrong credentials,try again',
+          position: 'topRight'
+        })
+      }
+
+
+    }, 2000)
+
+
+
+
   }
   render() {
 
     return (
       <>
-        <div className="content">
+        <div className="login-container-fluid">
           <Row className="p-3">
             <Col md="12">
               <Card>
@@ -122,7 +143,7 @@ class Login extends React.Component {
                           <label htmlFor="exampleInputEmail1">
                             Email address
                           </label>
-                          <Input onChange={(e,field = 'email') => this.handleInputChange(e,field)} placeholder="mike@email.com" type="email" />
+                          <Input onChange={(e, field = 'email') => this.handleInputChange(e, field)} placeholder="mike@email.com" type="email" />
                         </FormGroup>
                       </Col>
 
@@ -131,7 +152,7 @@ class Login extends React.Component {
                           <label htmlFor="Password">
                             Password
                           </label>
-                          <Input onChange={(e, field = 'password') => this.handleInputChange(e, field)}  placeholder="" type="Password" />
+                          <Input onChange={(e, field = 'password') => this.handleInputChange(e, field)} placeholder="" type="Password" />
                         </FormGroup>
                       </Col>
 
@@ -140,7 +161,7 @@ class Login extends React.Component {
                   </Form>
                 </CardBody>
                 <CardFooter>
-                  <Button  id="submitBtn" onClick={this.handleSubmit} className="btn-fill" color="success" type="submit">
+                  <Button id="submitBtn" onClick={this.handleSubmit} className="btn-fill" color="success" type="submit">
                     Ready!
                   </Button>
                 </CardFooter>
@@ -152,5 +173,20 @@ class Login extends React.Component {
     );
   }
 }
+const mapStateToProps = state => {
+  return {
+    isAutheticated: state.auth.token !== null,
+    loading: state.auth.loading,
+    token: state.auth.token,
+    error: state.auth.errorMessage !== null
+  }
+}
 
-export default Login;
+const matchDispatchToProps = (dispatch) => {
+  return {
+    SignIn: (email, password, bool) => dispatch(actions.auth(email, password, bool))
+  };
+};
+
+
+export default connect(mapStateToProps, matchDispatchToProps)(Login);

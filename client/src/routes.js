@@ -1,7 +1,5 @@
 import Dashboard from "views/Dashboard.jsx";
-import Login from "views/Login.jsx";
-
-// import Icons from "views/Icons.jsx";
+  // import Icons from "views/Icons.jsx";
 // import Map from "views/Map.jsx";
 import Notifications from "views/Notifications.jsx";
 import Rtl from "views/Rtl.jsx";
@@ -16,14 +14,6 @@ var routes = [
     // rtlName: "لوحة القيادة",
     icon: "tim-icons icon-chart-pie-36",
     component: Dashboard,
-    layout: "/admin"
-  },
-  {
-    path: "/auth/signin",
-    name: "SignIn",
-    // rtlName: "لوحة القيادة",
-    icon: "tim-icons icon-chart-pie-36",
-    component: Login,
     layout: "/admin"
   },
   // {

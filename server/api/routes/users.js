@@ -37,7 +37,7 @@ User.find({ email: req.body.email })
             // res == true
             if(err){
                 return res.status(401).json({
-                    message:"Auth Failed"
+                    message:"Failed"
                 });
             }
             if(result){
@@ -51,13 +51,15 @@ User.find({ email: req.body.email })
                          expiresIn:"1h"
                      });
                  req.headers.authorization = 'Bearer '+ token;
-                 success(res,{
-                    message:"Auth Successfull",
-                    token: token
+              return  success(res,{
+                    message:"Success",
+                    token: token,
+                    userId:user[0]._id,
+                    expires:60*60*60
                 })
             }
             return res.status(401).json({
-                message:"Auth Failed"
+                message:"Failed"
             });
 
         });}
