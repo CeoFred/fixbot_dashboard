@@ -1,8 +1,7 @@
 import React from "react";
 import { createBrowserHistory } from "history";
 import {
-  withRouter,
-  BrowserRouter as Router,
+  withRouter,Router,
   Route,
   Switch,
   Redirect
@@ -33,6 +32,7 @@ return (
     <Route exact path="/admin/dashboard"
      render={props => <AdminLayout {...props} />} />
       <Route exact path="/signin" render={props => <Login {...props} />} />
+
     </Switch>
     </Router>
     )
