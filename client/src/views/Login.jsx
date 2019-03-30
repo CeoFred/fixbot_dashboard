@@ -16,8 +16,13 @@ import {
 } from "reactstrap";
 import iziToast from "izitoast";
 import { connect } from 'react-redux';
+import {  Redirect } from 'react-router'
 import * as actions from '../store/actions/index'
 import "../assets/css/custom.css"
+import {
+  withRouter
+} from 'react-router-dom'
+
 
 import { updateObject, checkValidity } from '../shared/utility'
 class Login extends React.Component {
@@ -49,12 +54,6 @@ class Login extends React.Component {
   }
   componentWillMount() {
     document.title = 'Login | fixbot'
-  }
-  componentDidMount() {
-    iziToast.success({
-      title: "Welcome to Fixbot",
-      message: "Login to access your dashboard"
-    });
   }
 
   handleInputChange = (event, inputIdentifier) => {
@@ -102,14 +101,13 @@ class Login extends React.Component {
         submitBtn.disabled = false;
         submitBtn.innerText = 'Ready!'
       }
+
       if (this.props.error) {
         iziToast.warning({
           message: 'Wrong credentials,try again',
           position: 'topRight'
         })
       }
-
-
     }, 2000)
 
 
@@ -117,7 +115,9 @@ class Login extends React.Component {
 
   }
   render() {
-
+    if(this.props.isAutheticated){
+      return <Redirect to="/admin/dashboard"/>
+    }
     return (
       <>
         <div className="login-container-fluid">
@@ -137,7 +137,6 @@ class Login extends React.Component {
                 <CardBody className="mt-4">
                   <Form onSubmit={this.handleSubmit}>
                     <Row>
-
                       <Col className="pl-md-1" md="12">
                         <FormGroup>
                           <label htmlFor="exampleInputEmail1">
@@ -155,8 +154,6 @@ class Login extends React.Component {
                           <Input onChange={(e, field = 'password') => this.handleInputChange(e, field)} placeholder="" type="Password" />
                         </FormGroup>
                       </Col>
-
-
                     </Row>
                   </Form>
                 </CardBody>
@@ -189,4 +186,4 @@ const matchDispatchToProps = (dispatch) => {
 };
 
 
-export default connect(mapStateToProps, matchDispatchToProps)(Login);
+export default withRouter(connect(mapStateToProps, matchDispatchToProps)(Login));

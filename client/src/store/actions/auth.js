@@ -56,15 +56,15 @@ return dispatch => {
         if(data.message === 'Failed'){
      dispatch(authFailed('Invalid credentials'))
         }else{
-    let expirationDate = new Date(new Date().getTime() + data.meta.expiry * 1000);
+    let expirationDate = new Date(new Date().getTime() + data.meta.expires * 1000);
             localStorage.setItem('token', data.meta.token);
             localStorage.setItem('userId', data.meta.userId);
             localStorage.setItem('expirationDate', expirationDate);
             dispatch(authSuccess(data.meta.token,data.meta.userId));
         }
-        console.log(data)
+        // console.log(data)
     }).catch(err => {
-    console.log(err);
+    // console.log(err);
     dispatch(authFailed('Something went wrong'))
                });
     };
@@ -95,7 +95,7 @@ export const authCheckState = () => {
             const expirationDate = new Date(localStorage.getItem('expirationDate'));
             // console.log('ExpDte '+ expirationDate.getTime());
             // console.log('Date Nw ' + new Date().getTime());
-            if(expirationDate > new Date()){
+            if(expirationDate > new Date().getTime()){
                 const userId = localStorage.getItem('userId');
                 dispatch(authSuccess(userId,token));
                 dispatch(checkAuthTimeout( (expirationDate.getTime() - new Date().getTime()) / 1000));

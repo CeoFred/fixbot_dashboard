@@ -1,4 +1,5 @@
 const express = require('express');
+var cors = require('cors');
 const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
@@ -25,7 +26,7 @@ mongoose.Promise = global.Promise;
 //       message: "It works"
 //     });
 // });
-
+app.use(cors());
 //making the uploads folder available to the pubic,targets request coming throught the uploads url path /uploads
 app.use('/uploads',express.static('uploads'));
 

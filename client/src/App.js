@@ -1,7 +1,8 @@
 import React from "react";
 import { createBrowserHistory } from "history";
 import {
-  withRouter,Router,
+  withRouter,
+  BrowserRouter as Router,
   Route,
   Switch,
   Redirect
@@ -16,45 +17,30 @@ import "assets/demo/demo.css";
 import "assets/css/nucleo-icons.css";
 import "assets/css/iziToast.min.css"
 
+
 class App extends React.Component {
 
-  componentDidMount() {
-
+  componentWillMount() {
     this.props.onTryAutoSignup();
-
   }
   render(){
-    const hist = createBrowserHistory();
-    var routes;
-if(!this.props.isAutheticated){
-     routes = (
-      <Switch>
-      <Route path="/auth/signin" component={Login}/>
-      <Redirect from="/" to="/auth/signin" />
+
+const hist = createBrowserHistory();
+return (
+
+    <Router history={hist}>
+     <Switch>
+    <Route exact path="/admin/dashboard"
+     render={props => <AdminLayout {...props} />} />
+      <Route exact path="/signin" render={props => <Login {...props} />} />
     </Switch>
-      )
-    }else{
-      routes = (
-      <Switch>
-      <Route path="/auth/signin" component={Login}/>
-      <Route path="/admin" render={props => <AdminLayout {...props} />} />
-      <Redirect from="/" to="/admin/dashboard" />
-    </Switch>
-      )
-    }
-    return (
-      <Router history={hist}>
-    {routes}
     </Router>
     )
-  }
-
-;
-
+  };
 }
 const mapStateToProps = state => {
   return {
-    isAutheticated: state.auth.token !== null
+    isAutheticated: state.auth.auth
   }
 }
 
