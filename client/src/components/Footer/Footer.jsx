@@ -30,7 +30,7 @@ class Footer extends React.Component {
               rel="noopener noreferrer"
               target="_blank"
             >
-              TeamFixBot
+              Team FixBot
             </a>{" "}
             for a better world.
           </div>

@@ -1,30 +1,29 @@
 import React from "react";
-
-// reactstrap components
+// react plugin for creating notifications over the dashboard
+import NotificationAlert from "react-notification-alert";
 import {
   Button,
   Card,
   CardHeader,
   CardBody,
   CardFooter,
-  CardText,
+  // CardText,
   FormGroup,
   Form,
   Input,
   Row,
   Col
 } from "reactstrap";
-import iziToast from "izitoast";
+import { updateObject, checkValidity } from '../shared/utility'
+
 import { connect } from 'react-redux';
-import {  Redirect } from 'react-router'
+import { withRouter} from 'react-router-dom'
 import * as actions from '../store/actions/index'
 import "../assets/css/custom.css"
-import {
-  withRouter
-} from 'react-router-dom'
+// import {
+//   withRouter
+// } from 'react-router-dom'
 
-
-import { updateObject, checkValidity } from '../shared/utility'
 class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -54,6 +53,9 @@ class Login extends React.Component {
   }
   componentWillMount() {
     document.title = 'Login | fixbot'
+    if(this.props.isAutheticated){
+      this.props.history.push('/');
+    }
   }
 
   handleInputChange = (event, inputIdentifier) => {
@@ -89,12 +91,27 @@ class Login extends React.Component {
     setTimeout(() => {
 
       if (this.props.isAutheticated) {
-        iziToast.show({
-          title: 'Great',
-          message: 'Sucesssfully logged in',
-          icon: 'icon-person',
-          position: 'topRight'
-        })
+
+        var options = {}
+        let place = "tr"
+        let type = "success"
+        options = {
+          place: place,
+          message: (
+            <div>
+              <div>
+               Success
+          </div>
+            </div>
+          ),
+          type: type,
+          icon: "tim-icons icon-bell-55",
+          autoDismiss: 3
+        };
+        this.refs.notificationAlert.notificationAlert(options);
+        setTimeout(() => {
+          this.props.history.push('/admin/dashboard');
+        }, 3000);
       }
 
       if (this.props.loading === false) {
@@ -103,40 +120,47 @@ class Login extends React.Component {
       }
 
       if (this.props.error) {
-        iziToast.warning({
-          message: 'Wrong credentials,try again',
-          position: 'topRight'
-        })
+
+        let place = "tr"
+        let type = "warning"
+        options = {
+          place: place,
+          message: (
+            <div>
+              <div>
+                Failed to Authenticate
+          </div>
+            </div>
+          ),
+          type: type,
+          icon: "tim-icons icon-bell-55",
+          autoDismiss: 7
+        };
+        this.refs.notificationAlert.notificationAlert(options);
+
       }
-    }, 2000)
-
-
-
-
+    }, 1000)
   }
+
   render() {
-    if(this.props.isAutheticated){
-      return <Redirect to="/admin/dashboard"/>
-    }
     return (
       <>
-        <div className="login-container-fluid">
-          <Row className="p-3">
-            <Col md="12">
+
+        <div className="content">
+          <div className="react-notification-alert-container">
+            <NotificationAlert ref="notificationAlert" />
+          </div>
+          <Row>
+            <Col>
               <Card>
                 <CardHeader className="text-center">
-                  <h5 className="title">
-                    <CardText>
-                      SignIn
-                  </CardText>
-                  </h5>
                   <Button className="btn-icon btn-round" color="facebook">
                     <i className="tim-icons icon-single-02" />
                   </Button>
                 </CardHeader>
                 <CardBody className="mt-4">
                   <Form onSubmit={this.handleSubmit}>
-                    <Row>
+                    <Row className="p-4">
                       <Col className="pl-md-1" md="12">
                         <FormGroup>
                           <label htmlFor="exampleInputEmail1">
@@ -154,18 +178,19 @@ class Login extends React.Component {
                           <Input onChange={(e, field = 'password') => this.handleInputChange(e, field)} placeholder="" type="Password" />
                         </FormGroup>
                       </Col>
+                      <Button id="submitBtn" onClick={this.handleSubmit} className="btn-fill" color="success" type="submit">
+                        Ready!
+                  </Button>
                     </Row>
                   </Form>
                 </CardBody>
                 <CardFooter>
-                  <Button id="submitBtn" onClick={this.handleSubmit} className="btn-fill" color="success" type="submit">
-                    Ready!
-                  </Button>
+
                 </CardFooter>
               </Card>
             </Col>
           </Row>
-        </div>
+      </div>
       </>
     );
   }
@@ -185,5 +210,7 @@ const matchDispatchToProps = (dispatch) => {
   };
 };
 
-
 export default withRouter(connect(mapStateToProps, matchDispatchToProps)(Login));
+
+
+// export default Login;

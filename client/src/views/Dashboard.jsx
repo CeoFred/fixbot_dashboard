@@ -3,7 +3,9 @@ import React from "react";
 import classNames from "classnames";
 // react plugin used to create charts
 import { Line, Bar } from "react-chartjs-2";
-
+import {withRouter} from "react-router-dom"
+import {connect} from "react-redux";
+import * as actions from "../store/actions/index"
 // reactstrap components
 import {
   Button,
@@ -40,6 +42,12 @@ class Dashboard extends React.Component {
       bigChartData: "data1"
     };
   }
+  componentWillMount(){
+    document.title = 'Dashboard | FixBot'
+    if(!this.props.isAutheticated){
+      this.props.history.push('/admin/auth/login')
+    }
+  }
   setBgChartData = name => {
     this.setState({
       bigChartData: name
@@ -55,7 +63,7 @@ class Dashboard extends React.Component {
                 <CardHeader>
                   <Row>
                     <Col className="text-left" sm="6">
-                      <h5 className="card-category">Weekly Summary</h5>
+                      <h5 className="card-category">Total consumption</h5>
                       <CardTitle tag="h2">Fuel Usage</CardTitle>
                     </Col>
                     <Col sm="6">
@@ -80,7 +88,7 @@ class Dashboard extends React.Component {
                             type="radio"
                           />
                           <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
-                            Accounts
+                            This week
                           </span>
                           <span className="d-block d-sm-none">
                             <i className="tim-icons icon-single-02" />
@@ -102,7 +110,7 @@ class Dashboard extends React.Component {
                             type="radio"
                           />
                           <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
-                            Purchases
+                            Last Week
                           </span>
                           <span className="d-block d-sm-none">
                             <i className="tim-icons icon-gift-2" />
@@ -124,7 +132,7 @@ class Dashboard extends React.Component {
                             type="radio"
                           />
                           <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
-                            Sessions
+                            2 weeks ago
                           </span>
                           <span className="d-block d-sm-none">
                             <i className="tim-icons icon-tap-02" />
@@ -149,7 +157,7 @@ class Dashboard extends React.Component {
             <Col lg="4">
               <Card className="card-chart">
                 <CardHeader>
-                  <h5 className="card-category">Water consumption</h5>
+                  <h5 className="card-category">Total Shipments</h5>
                   <CardTitle tag="h3">
                     <i className="tim-icons icon-bell-55 text-info" />{" "}
                     763,215
@@ -541,4 +549,19 @@ class Dashboard extends React.Component {
   }
 }
 
-export default Dashboard;
+const mapStateToProps = state => {
+  return {
+    isAutheticated: state.auth.token !== null,
+    loading: state.auth.loading,
+    token: state.auth.token,
+    error: state.auth.errorMessage !== null
+  }
+}
+
+const matchDispatchToProps = (dispatch) => {
+  return {
+    SignIn: (email, password, bool) => dispatch(actions.auth(email, password, bool))
+  };
+};
+
+export default withRouter(connect(mapStateToProps, matchDispatchToProps)(Dashboard));

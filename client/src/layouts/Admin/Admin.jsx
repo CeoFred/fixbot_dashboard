@@ -1,13 +1,16 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, withRouter} from 'react-router-dom';
+
 // javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from "perfect-scrollbar";
+import { connect } from 'react-redux';
 
 // core components
 import AdminNavbar from "components/Navbars/AdminNavbar.jsx";
 import Footer from "components/Footer/Footer.jsx";
 import Sidebar from "components/Sidebar/Sidebar.jsx";
 import FixedPlugin from "components/FixedPlugin/FixedPlugin.jsx";
+import * as actions from '../../store/actions/index';
 
 import routes from "routes.js";
 
@@ -100,7 +103,7 @@ class Admin extends React.Component {
             bgColor={this.state.backgroundColor}
             logo={{
               outterLink: "https://www.fixbot.co/",
-              text: "FIXBOT",
+              text: "Fixbot",
               imgSrc: logo
             }}
             toggleSidebar={this.toggleSidebar}
@@ -131,5 +134,16 @@ class Admin extends React.Component {
     );
   }
 }
+const mapStateToProps = state => {
+  return {
+    isAutheticated: state.auth.token !== null
+  }
+}
 
-export default Admin;
+const matchDispatchToProps = (dispatch) => {
+  return {
+onTryAutoSignup: () => dispatch(actions.authCheckState())
+  };
+};
+
+export default  withRouter(connect(mapStateToProps, matchDispatchToProps)(Admin));

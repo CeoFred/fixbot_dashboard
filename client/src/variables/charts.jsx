@@ -68,22 +68,17 @@ let chartExample1 = {
 
     return {
       labels: [
-        "JAN",
-        "FEB",
-        "MAR",
-        "APR",
-        "MAY",
-        "JUN",
-        "JUL",
-        "AUG",
-        "SEP",
-        "OCT",
-        "NOV",
-        "DEC"
+        "MON",
+        "TUE",
+        "WEB",
+        "THR",
+        "FRI",
+        "SAT",
+        "SUN"
       ],
       datasets: [
         {
-          label: "My First dataset",
+          label: "Usage",
           fill: true,
           backgroundColor: gradientStroke,
           borderColor: "#1f8ef1",
@@ -97,7 +92,7 @@ let chartExample1 = {
           pointHoverRadius: 4,
           pointHoverBorderWidth: 15,
           pointRadius: 4,
-          data: [100, 70, 90, 70, 85, 60, 75, 60, 90, 80, 110, 100]
+          data: [100, 70, 90, 70, 85, 60, 75]
         }
       ]
     };

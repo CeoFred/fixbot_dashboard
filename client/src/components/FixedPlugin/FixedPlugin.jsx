@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 // reactstrap components
-// import { Button } from "reactstrap";
+import { Button } from "reactstrap";
 
 class FixedPlugin extends Component {
   constructor(props) {
@@ -85,7 +85,7 @@ class FixedPlugin extends Component {
               />{" "}
               <span className="color-label">DARK MODE</span>{" "}
             </li>
-          </ul>
+                    </ul>
         </div>
       </div>
     );
