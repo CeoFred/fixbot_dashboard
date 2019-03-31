@@ -6,6 +6,7 @@ const multer = require('multer');
 
 
 const checkAuth = require('../middleware/check_Auth');
+
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, './uploads/')
@@ -22,15 +23,15 @@ if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png'){
 }
     // The function should call `cb` with a boolean
     // to indicate if the file should be accepted
-  
+
     // To reject this file pass `false`, like so:
     cb(null, false);
     // You can always pass an error if something goes wrong:
       cb(new Error('Image should be of type jpeg or png!'))
-  
+
   }
 
-const upload = multer({ 
+const upload = multer({
     fileFilter: fileFilter,
     storage: storage ,limits:{
     fileSize: 1024 * 1024 * 5
@@ -58,7 +59,7 @@ router.get('/', (req,res,next) => {
                             url: `http://localhost:3000/products/${doc._id}`
                         }
                     }
-                }) 
+                })
             };
             res.status(200).json(response);
         // }else{
@@ -78,7 +79,7 @@ router.get('/', (req,res,next) => {
 router.get('/view', (req,res,next) => {
     console.log(req.headers);
     console.log(req.ip);
-    
+
     Product.find()
     .exec()
    .then(data => {
@@ -93,7 +94,7 @@ res.status(500).json({
     error: err
 })
    });
-   
+
 
 });
 
@@ -107,7 +108,7 @@ router.post('/',checkAuth,upload.single('productImage') ,(req,res,next) => {
         price: req.body.price,
         productImage: req.file.path
     });
-    console.log(product);    
+    console.log(product);
     product
    .save()
    .then((data) => {

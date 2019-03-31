@@ -5,8 +5,8 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-const productRoutes = require('./api/routes/products');
-const orderRoutes = require('./api/routes/orders');
+const userVehicleRoutes = require('./api/routes/userVehicle');
+// const orderRoutes = require('./api/routes/carsAPI');
 const userRoutes = require('./api/routes/users');
 
 mongoose.connect('mongodb://localhost/fixbot',{
@@ -16,49 +16,22 @@ mongoose.connect('mongodb://localhost/fixbot',{
 const db = mongoose.connection;
 db.on('error',console.error.bind(console,'connection noticed an error:'));
 db.once('open',() =>{
-console.log('Connected');
+console.log('Connected to fixbot with collections like '+ db.collections);
 });
 
 mongoose.Promise = global.Promise;
-// app.use((req,res,next) => {
-// //use sets up a middleware. Incoming request has to go through use
-// res.status(200).json({
-//       message: "It works"
-//     });
-// });
+
 app.use(cors());
-//making the uploads folder available to the pubic,targets request coming throught the uploads url path /uploads
 app.use('/uploads',express.static('uploads'));
-
-// morgan helps to concole.log our request
 app.use(morgan('dev'));
-
 app.use(bodyParser.urlencoded({extended: false}));
-
 app.use(bodyParser.json());
 
-// allowing CORS Cross Origin Request
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin','*');
-    res.header('Access-Contorl-Allow-Headers','*');
-
-    if(req.method === 'OPTIONS'){
-        // HTTP METHODS TO BE SUPPORTED
-        res.header('Access-Control-Allow-Methods','PUT,POST,PATCH,DELETE,GET');
-    return res.status(200).json({
-
-    });
-    }
-    next();
-});
-
-app.use('/products',productRoutes);
-app.use('/orders',orderRoutes);
+// app.use('/products',productRoutes);
+app.use('/user/vehicle', userVehicleRoutes);
 app.use('/user',userRoutes);
 app.use('/',(req,res,next) => {
-
-    res.send('Welcome ,you have the following headers set ' + Object.keys(req.headers) );
-
+res.status(404).json({"Message":"Nothing for you here"})
     });
 // middleware for errors
 app.use((req,res,next) => {
