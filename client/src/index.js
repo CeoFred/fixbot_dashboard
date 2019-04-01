@@ -18,7 +18,8 @@ import {
 
 import AdminLayout from "layouts/Admin/Admin.jsx";
 import Authreducer from './store/reducers/authReducer';
-
+import Login from "./views/Login.jsx";
+import App from "./App";
 import "assets/scss/black-dashboard-react.scss";
 import "assets/demo/demo.css";
 import "assets/css/nucleo-icons.css";
@@ -40,6 +41,8 @@ ReactDOM.render(
   <BrowserRouter>
     <Switch>
       <Route path="/admin" render={props => <AdminLayout {...props} />} />
+    <Route path="/auth/login" exact render={props => <Login {...props}/>} />
+
       <Redirect from="/" to="/admin/dashboard" />
      </Switch>
     </BrowserRouter>

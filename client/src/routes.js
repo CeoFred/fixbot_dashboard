@@ -1,5 +1,4 @@
 import Dashboard from "views/Dashboard.jsx";
-import Login from "views/Login.jsx";
 import Logout from "views/Logout.js";
 
 var routes = [
@@ -11,14 +10,7 @@ var routes = [
     component: Dashboard,
     layout: "/admin"
   },
-  {
-    path: "/auth/login",
-    name: "Login",
-    rtlName: "خرائط",
-    icon: "tim-icons icon-single-02",
-    component: Login,
-    layout: "/admin"
-  },
+
   {
     path: "/auth/logout",
     name: "Logout",

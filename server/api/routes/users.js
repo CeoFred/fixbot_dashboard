@@ -15,6 +15,27 @@ const User = require('../models/users');
 
 const {empty,success,exists,failed,created,invalid} = require('../response');
 
+
+router.get('/jwt',(req,res,next) => {
+
+            //check if an authtorization headeer exixsts
+            const token = req.query.token;
+
+            try {
+                const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY,{complete:true});
+                if(decoded){
+                    var d = jwt.decode(token,{complete:true})
+                success(res, d.payload);
+
+                }
+            } catch (err) {
+                return res.status(404).json({
+                    message: "Auth Failed"
+                })
+            }
+
+})
+
 router.post('/login', [
     // username must be an email
     check('email').isEmail().withMessage('A valid email is required to signin')
@@ -43,19 +64,25 @@ User.find({ email: req.body.email })
             if(result){
 
                 const token = jwt.sign({
-                     email: user[0].email,
-                     userId: user[0]._id
+                            data:{ email: user[0].email,
+                            userId: user[0]._id,
+                            firstname: user[0].firstname,
+                            lastname: user[0].lastname,
+                            phonenumber: user[0].phonenumber
+                            }
                     },
                      process.env.JWT_SECRET_KEY,
                      {
-                         expiresIn:"1h"
+                         expiresIn:"7d",
+                         mutatePayload:true
                      });
                  req.headers.authorization = 'Bearer '+ token;
               return  success(res,{
                     message:"Success",
-                    token: token,
+                    token: token,                                        first_name: user[0].firstname,
+                    last_name: user[0].lastname,                                phone_number: user[0].phonenumber,
                     userId:user[0]._id,
-                    expires:60*60*60
+                    expires:7*(24*60*60*60),
                 })
             }
             return res.status(401).json({

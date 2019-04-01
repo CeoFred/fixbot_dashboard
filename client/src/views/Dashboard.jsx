@@ -45,7 +45,7 @@ class Dashboard extends React.Component {
   componentWillMount(){
     document.title = 'Dashboard | FixBot'
     if(!this.props.isAutheticated){
-      this.props.history.push('/admin/auth/login')
+      this.props.history.push('/auth/login')
     }
   }
   setBgChartData = name => {

@@ -28,7 +28,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 // app.use('/products',productRoutes);
-app.use('/user/vehicle', userVehicleRoutes);
+// app.use('/user/vehicle', userVehicleRoutes);
 app.use('/user',userRoutes);
 app.use('/',(req,res,next) => {
 res.status(404).json({"Message":"Nothing for you here"})

@@ -106,12 +106,12 @@ class Login extends React.Component {
           ),
           type: type,
           icon: "tim-icons icon-bell-55",
-          autoDismiss: 3
+          autoDismiss: 1
         };
         this.refs.notificationAlert.notificationAlert(options);
         setTimeout(() => {
           this.props.history.push('/admin/dashboard');
-        }, 3000);
+        }, 1000);
       }
 
       if (this.props.loading === false) {
@@ -146,7 +146,7 @@ class Login extends React.Component {
     return (
       <>
 
-        <div className="content">
+        <div className="login-container-fluid p-3">
           <div className="react-notification-alert-container">
             <NotificationAlert ref="notificationAlert" />
           </div>

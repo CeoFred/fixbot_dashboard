@@ -94,20 +94,26 @@ class Admin extends React.Component {
     return "Brand";
   };
   render() {
+    let nav;
+    if(this.props.isAutheticated){
+      nav = (
+        <Sidebar
+          {...this.props}
+          routes={routes}
+          bgColor={this.state.backgroundColor}
+          logo={{
+            outterLink: "https://www.fixbot.co/",
+            text: "Fixbot",
+            imgSrc: logo
+          }}
+          toggleSidebar={this.toggleSidebar}
+        />
+      )
+    }
     return (
       <>
         <div className="wrapper">
-          <Sidebar
-            {...this.props}
-            routes={routes}
-            bgColor={this.state.backgroundColor}
-            logo={{
-              outterLink: "https://www.fixbot.co/",
-              text: "Fixbot",
-              imgSrc: logo
-            }}
-            toggleSidebar={this.toggleSidebar}
-          />
+          {nav}
           <div
             className="main-panel"
             ref="mainPanel"
