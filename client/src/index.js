@@ -10,15 +10,9 @@ import {
 import thunk from 'redux-thunk'; //thunk helps to add middle ware to action
 // import { createBrowserHistory } from "history";
 import {
-  BrowserRouter,
-  Route,
-  Switch,
-  Redirect
-} from "react-router-dom";
+  BrowserRouter} from "react-router-dom";
 
-import AdminLayout from "layouts/Admin/Admin.jsx";
 import Authreducer from './store/reducers/authReducer';
-import Login from "./views/Login.jsx";
 import App from "./App";
 import "assets/scss/black-dashboard-react.scss";
 import "assets/demo/demo.css";
@@ -39,12 +33,7 @@ const store = createStore(rootReducer, composeEnhancers(
 ReactDOM.render(
  <Provider store={store}>
   <BrowserRouter>
-    <Switch>
-      <Route path="/admin" render={props => <AdminLayout {...props} />} />
-    <Route path="/auth/login" exact render={props => <Login {...props}/>} />
-
-      <Redirect from="/" to="/admin/dashboard" />
-     </Switch>
+    <App />
     </BrowserRouter>
     </Provider>
 ,

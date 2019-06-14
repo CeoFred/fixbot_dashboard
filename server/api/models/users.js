@@ -21,6 +21,9 @@ const userSchema =  mongoose.Schema({
     lastname:{
         type: String,
         required: true
+    },
+    deviceID:{
+        type: mongoose.Schema.Types.ObjectId
     }
 });
 

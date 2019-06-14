@@ -204,7 +204,7 @@ let chartExample2 = {
     gradientStroke.addColorStop(0, "rgba(29,140,248,0)"); //blue colors
 
     return {
-      labels: ["JUL", "AUG", "SEP", "OCT", "NOV", "DEC"],
+      labels: ["MON", "TUE", "WED", "THR", "FRI", "SAT","SUN"],
       datasets: [
         {
           label: "Data",
@@ -221,7 +221,7 @@ let chartExample2 = {
           pointHoverRadius: 4,
           pointHoverBorderWidth: 15,
           pointRadius: 4,
-          data: [80, 100, 70, 80, 120, 80]
+          data: [80, 100, 70, 80, 120, 80,30]
         }
       ]
     };
@@ -243,10 +243,10 @@ let chartExample3 = {
     gradientStroke.addColorStop(0, "rgba(119,52,169,0)"); //purple colors
 
     return {
-      labels: ["USA", "GER", "AUS", "UK", "RO", "BR"],
+      labels: ["Water Level"],
       datasets: [
         {
-          label: "Countries",
+          label: "Water level",
           fill: true,
           backgroundColor: gradientStroke,
           hoverBackgroundColor: gradientStroke,
@@ -254,7 +254,7 @@ let chartExample3 = {
           borderWidth: 2,
           borderDash: [],
           borderDashOffset: 0.0,
-          data: [53, 20, 10, 80, 100, 45]
+          data: [50,20,30,40,50,60,70]
         }
       ]
     };
@@ -322,10 +322,10 @@ const chartExample4 = {
     gradientStroke.addColorStop(0, "rgba(66,134,121,0)"); //green colors
 
     return {
-      labels: ["JUL", "AUG", "SEP", "OCT", "NOV"],
+      labels: ["MON", "TUE", "WED", "THR", "FRI","SAT","SUN"],
       datasets: [
         {
-          label: "My First dataset",
+          label: "Temperature",
           fill: true,
           backgroundColor: gradientStroke,
           borderColor: "#00d6b4",
@@ -339,7 +339,7 @@ const chartExample4 = {
           pointHoverRadius: 4,
           pointHoverBorderWidth: 15,
           pointRadius: 4,
-          data: [90, 27, 60, 12, 80]
+          data: [90, 27, 60, 12, 80,23,44]
         }
       ]
     };

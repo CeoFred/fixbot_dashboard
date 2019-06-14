@@ -157,10 +157,10 @@ class Dashboard extends React.Component {
             <Col lg="4">
               <Card className="card-chart">
                 <CardHeader>
-                  <h5 className="card-category">Total Shipments</h5>
+                  <h5 className="card-category">Oil Level</h5>
                   <CardTitle tag="h3">
                     <i className="tim-icons icon-bell-55 text-info" />{" "}
-                    763,215
+                    Normal
                   </CardTitle>
                 </CardHeader>
                 <CardBody>
@@ -176,10 +176,10 @@ class Dashboard extends React.Component {
             <Col lg="4">
               <Card className="card-chart">
                 <CardHeader>
-                  <h5 className="card-category">Daily Sales</h5>
+                  <h5 className="card-category">Water Level</h5>
                   <CardTitle tag="h3">
                     <i className="tim-icons icon-delivery-fast text-primary" />{" "}
-                    3,500€
+                    Half Way
                   </CardTitle>
                 </CardHeader>
                 <CardBody>
@@ -195,9 +195,9 @@ class Dashboard extends React.Component {
             <Col lg="4">
               <Card className="card-chart">
                 <CardHeader>
-                  <h5 className="card-category">Completed Tasks</h5>
+                  <h5 className="card-category">Temperature</h5>
                   <CardTitle tag="h3">
-                    <i className="tim-icons icon-send text-success" /> 12,100K
+                    <i className="tim-icons icon-send text-success" />Now - 100K
                   </CardTitle>
                 </CardHeader>
                 <CardBody>
@@ -215,7 +215,7 @@ class Dashboard extends React.Component {
             <Col lg="6" md="12">
               <Card className="card-tasks">
                 <CardHeader>
-                  <h6 className="title d-inline">Tasks(5)</h6>
+                  <h6 className="title d-inline">Daily car check</h6>
                   <p className="card-category d-inline"> today</p>
                   <UncontrolledDropdown>
                     <DropdownToggle
@@ -482,16 +482,16 @@ class Dashboard extends React.Component {
             <Col lg="6" md="12">
               <Card>
                 <CardHeader>
-                  <CardTitle tag="h4">Simple Table</CardTitle>
+                  <CardTitle tag="h4">Quick Overview</CardTitle>
                 </CardHeader>
                 <CardBody>
                   <Table className="tablesorter" responsive>
                     <thead className="text-primary">
                       <tr>
-                        <th>Name</th>
-                        <th>Country</th>
-                        <th>City</th>
-                        <th className="text-center">Salary</th>
+                        <th>Section</th>
+                        <th>Details</th>
+                        <th>Message</th>
+                        <th className="text-center">Status</th>
                       </tr>
                     </thead>
                     <tbody>
